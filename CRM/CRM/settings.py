@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'workers',
-    'client',
-    'ii',
+    'rest_framework',  # Подключаем Django REST Framework
+    'rest_framework_simplejwt',  # Подключаем SimpleJWT для работы с JWT-токенами
+    'workers',  # Подключаем приложение для работы компании
+    'client',  # Подключаем приложение для работы с Клиентами
+    'ii',  # Подключаем приложение для работы с ИИ
 ]
 
 MIDDLEWARE = [
@@ -125,3 +127,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Используем JWT-аутентификацию по умолчанию
+    ),
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Время жизни access токена
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Время жизни refresh токена
+    'ROTATE_REFRESH_TOKENS': False,  # Не обновлять refresh токены при каждом запросе
+    'BLACKLIST_AFTER_ROTATION': True,  # Добавлять старые токены в черный список
+}

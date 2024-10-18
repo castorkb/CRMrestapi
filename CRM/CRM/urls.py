@@ -18,7 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls'))
+    path('admin/', admin.site.urls),  # Админка
+    path('api/client/', include('client.urls')),  # Подключаем маршруты приложения client
+    path('api/workers/', include('workers.urls')),  # Подключаем маршруты приложения workers
+    path('api/ii/', include('ii.urls')),  # Подключаем маршруты приложения ii
+    path('api-auth/', include('rest_framework.urls')),  # Для дополнительной поддержки DRF
+
 ]
+
+
+
+
+
 
