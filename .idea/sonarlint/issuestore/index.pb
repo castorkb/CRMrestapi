@@ -157,14 +157,6 @@ G.idea/sonarlint/issuestore/1/2/1298072d1fbc5d07ae12f80fa32114c910424e6c,9\a\9a
 Q.idea/sonarlint/securityhotspotstore/1/3/13619e5108663b44737088d5fecf781892a2345c,e\3\e3af67344d3e9c6f86a731476f2059b2b6e7f68d
 Å
 Q.idea/sonarlint/securityhotspotstore/1/2/1298072d1fbc5d07ae12f80fa32114c910424e6c,4\b\4b570b7d0f11a69f5baadd62a4c77aa67ec75423
-H
-CRM/client/Serializer.py,b\6\b6b29b9e7ef98b183b1032062b45f2688feb29a1
-H
-CRM/client/serializer.py,1\6\16006e429f0ca6864bcc370f3403dd1363b3df4d
-D
-CRM/ii/serializer.py,2\b\2b0f28a2355a144ca33558f1d9b9536e4d02f247
-I
-CRM/workers/serializer.py,f\5\f583c395c473432b2e3537d7c292b4d2f5e39993
 I
 CRM/client/serializers.py,8\7\87b826e1f37ac909aeac80dc6bd12b0b1f1e0d5a
 E
