@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/ii/', include('ii.urls')),  # Подключаем маршруты приложения ii
     path('api-auth/', include('rest_framework.urls')),  # Для дополнительной поддержки DRF
 
+
 ]
 
 
