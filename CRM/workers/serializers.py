@@ -41,13 +41,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 ################################################################
 class ProjectSerializer(serializers.ModelSerializer):
-        manager = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=True)
-        team = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True, required=False)
-        client = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=True)
+    manager = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=True)
+    team = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True, required=False)
+    client = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=True)
 
-        class Meta:
-            model = Project
-            fields = ['id', 'Title', 'Description', 'Deadline', 'manager', 'team', 'client']
+    class Meta:
+        model = Project
+        fields = ['id', 'Title', 'Description', 'Deadline', 'Status', 'manager', 'team', 'client']
+
 
 
 ##################################################################

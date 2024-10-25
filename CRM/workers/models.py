@@ -1,12 +1,10 @@
+from django.utils import timezone
+
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
-class User(models.Model):
-    UserName = models.CharField(max_length=250)
-    UserEmail = models.EmailField(max_length=250)
-    UserPassword = models.CharField(max_length=150)
-    UserPhone = models.CharField(max_length=20)
-    UserRole = models.CharField(max_length=100)
+
 
 class Task(models.Model):
     TaskName = models.CharField(max_length=250)
@@ -26,17 +24,18 @@ class Inventory(models.Model):
 ################################
 class Project(models.Model):
     Title = models.CharField(max_length=250)
-    Description = models.TextField
-    Deadline = models.TextField
+    Description = models.TextField()  # Добавлен вызов метода
+    Deadline = models.DateField(default=timezone.now)
     Status = models.CharField(max_length=250)
 
-    #Поля для назначения команды, менеджера и клиента
     manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='managed_projects')
     team = models.ManyToManyField(User, related_name='team_projects', blank=True)
     client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='client_projects')
 
     def __str__(self):
-        return self.title
+        return self.Title
+
+
 
 
 ################################

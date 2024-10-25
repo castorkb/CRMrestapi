@@ -11,13 +11,13 @@ data = {
     "Status": "In Progress",
     "manager": 1,  # ID менеджера
     "client": 2,   # ID клиента
-    "team": [3, 4] # Список ID членов команды
+    "team": [1] # Список ID членов команды
 }
 
 # JWT токен авторизации
 headers = {
 
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5ODYyNDQ2LCJpYXQiOjE3Mjk4NjIxNDYsImp0aSI6IjRjNTdkMGFlNzQ1ODRmNGViNzZkYjFkMDlhYWY5MTM0IiwidXNlcl9pZCI6NX0.wDnIZ8nkiwyYX9vRruMbSL7tcB6NcbSeVaebRo3zG7w",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5ODYzOTU4LCJpYXQiOjE3Mjk4NjM2NTgsImp0aSI6IjBkYmM3MmE5ZDM5NTRmZWJiNjMxMjJjOTliYjI2NThkIiwidXNlcl9pZCI6MX0.XwyZnD-qQkyeze7D_ICQhPCpesANzszmsWBJMAk3urk",
     "Content-Type": "application/json"
 }
 
