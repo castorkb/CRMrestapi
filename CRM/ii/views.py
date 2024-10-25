@@ -15,5 +15,3 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 # Представление для получения JWT-токенов
-class CustomTokenObtainPairView(TokenObtainPairView):
-    permission_classes = (AllowAny,)

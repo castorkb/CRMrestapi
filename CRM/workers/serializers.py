@@ -1,6 +1,13 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
+
+from .models import Project
+from .models import Project
+
+
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     group = serializers.CharField(write_only=True)
@@ -28,3 +35,20 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+
+
+################################################################
+class ProjectSerializer(serializers.ModelSerializer):
+        manager = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=True)
+        team = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True, required=False)
+        client = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=True)
+
+        class Meta:
+            model = Project
+            fields = ['id', 'Title', 'Description', 'Deadline', 'manager', 'team', 'client']
+
+
+##################################################################
+

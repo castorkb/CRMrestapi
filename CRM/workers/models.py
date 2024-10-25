@@ -20,11 +20,29 @@ class Inventory(models.Model):
     Stock_Level = models.IntegerField
     Purchase_Order = models.IntegerField
 
+
+
+
+################################
 class Project(models.Model):
     Title = models.CharField(max_length=250)
     Description = models.TextField
     Deadline = models.TextField
     Status = models.CharField(max_length=250)
+
+    #Поля для назначения команды, менеджера и клиента
+    manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='managed_projects')
+    team = models.ManyToManyField(User, related_name='team_projects', blank=True)
+    client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='client_projects')
+
+    def __str__(self):
+        return self.title
+
+
+################################
+
+
+
 
 class Resource(models.Model):
     Name = models.CharField(max_length=250)
