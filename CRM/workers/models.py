@@ -7,26 +7,26 @@ from django.db import models
 
 
 class Task(models.Model):
-    TaskName = models.CharField(max_length=250)
-    Title = models.CharField(max_length=250)
-    Description = models.TextField
-    Status = models.IntegerField
-    Assigned_To = models.IntegerField
+    taskname = models.CharField(max_length=250)
+    title = models.CharField(max_length=250)
+    description = models.TextField
+    status = models.IntegerField
+    assigned_To = models.IntegerField
 
 class Inventory(models.Model):
-    ItemName = models.CharField(max_length=250)
-    Stock_Level = models.IntegerField
-    Purchase_Order = models.IntegerField
+    itemName = models.CharField(max_length=250)
+    stock_Level = models.IntegerField
+    purchase_Order = models.IntegerField
 
 
 
 
 ################################
 class Project(models.Model):
-    Title = models.CharField(max_length=250)
-    Description = models.TextField()  # Добавлен вызов метода
-    Deadline = models.DateField(default=timezone.now)
-    Status = models.CharField(max_length=250)
+    title = models.CharField(max_length=250)
+    description = models.TextField()  # Добавлен вызов метода
+    deadline = models.DateField(default=timezone.now)
+    status = models.CharField(max_length=250)
 
     manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='managed_projects')
     team = models.ManyToManyField(User, related_name='team_projects', blank=True)
@@ -44,19 +44,19 @@ class Project(models.Model):
 
 
 class Resource(models.Model):
-    Name = models.CharField(max_length=250)
-    Type = models.CharField(max_length=250)
-    Quantity = models.CharField(max_length=250)
-    Availability = models.CharField(max_length=250)
-    Usage_History = models.CharField(max_length=250)
+    name = models.CharField(max_length=250)
+    type = models.CharField(max_length=250)
+    quantity = models.CharField(max_length=250)
+    availability = models.CharField(max_length=250)
+    usage_history = models.CharField(max_length=250)
 
 
 class Financial(models.Model):
-    Budget = models.CharField(max_length=250)  # Бюджет проекта, сохраненный как текст
-    Expenses = models.CharField(max_length=250) # Расходы, сохраненные как текст
-    Invoices = models.CharField(max_length=250) # Счета-фактуры, сохраненные как текст
-    Payments = models.CharField(max_length=250) # Платежи, сохраненные как текст
-    Taxes = models.CharField(max_length=250) # Налоги, сохраненные как текст
+    budget = models.CharField(max_length=250)  # Бюджет проекта, сохраненный как текст
+    expenses = models.CharField(max_length=250) # Расходы, сохраненные как текст
+    invoices = models.CharField(max_length=250) # Счета-фактуры, сохраненные как текст
+    payments = models.CharField(max_length=250) # Платежи, сохраненные как текст
+    taxes = models.CharField(max_length=250) # Налоги, сохраненные как текст
 
 
 

@@ -6,21 +6,24 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
     class Meta:
+
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password']
 
     def create(self, validated_data):
 
         user = User.objects.create_user(
-            username=validated_data['username'],
-            password=validated_data['password'],
-            email=validated_data.get('email', ''),
+            username=validated_data['username'], # Добавляем поле
+            first_name=validated_data['first_name'],  # Добавляем поле
+            last_name=validated_data['last_name'],  # Добавляем поле
+            password=validated_data['password'], # Добавляем поле
+            email=validated_data.get('email', ''), # Добавляем поле
             )
 
         try:
             group = Group.objects.get(name="Клиенты")
         except Group.DoesNotExist:
-            raise serializers.ValidationError({"group": "The 'Клиенты' group does not exist."})
+            raise serializers.ValidationError({"group": "Группы 'Клиенты' не существует."})
 
         user.groups.add(group)
         user.save()

@@ -2,8 +2,8 @@ from django.db import models
 
 # Create your models here.
 class Client(models.Model):
-    ClientName = models.CharField(max_length=250)
-    ClientEmail = models.EmailField(max_length=250)
-    ClientPhonenamber = models.CharField(max_length=20)
+    clientName = models.CharField(max_length=250)
+    clientEmail = models.EmailField(max_length=250)
+    clientPhonenamber = models.CharField(max_length=20)
 
 
