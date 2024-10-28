@@ -1,7 +1,9 @@
 import requests
 
 data = {
-    "username": "Иван",
+    "username": "Ivan",
+    "first_name": "Иван",
+    "last_name": "Иванов",
     "email": "adil@gmail.com",
     "password": "567156",
     "group": "Клиенты"
