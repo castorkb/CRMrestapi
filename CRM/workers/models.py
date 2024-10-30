@@ -33,7 +33,7 @@ class Project(models.Model):
     client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='client_projects')
 
     def __str__(self):
-        return self.Title
+        return self.title
 
 
 

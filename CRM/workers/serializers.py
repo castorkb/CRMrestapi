@@ -39,9 +39,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-
-
-################################################################
 class ProjectSerializer(serializers.ModelSerializer):
     status = serializers.CharField(default='Ожидает начала') # Поле для статуса проекта. Значение по умолчанию - 'Ожидает начала'
     manager = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=True) # Поле для связи с менеджером проекта. Оно является обязательным
@@ -52,7 +49,14 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project  # Указывает, что сериализатор связан с моделью Project
         fields = ['id', 'title', 'description', 'deadline', 'status', 'manager', 'team', 'client'] # Перечисление полей, которые будут использоваться в сериализаторе
 
+################################################################
+    def update(self, instance, validated_data):
+        team_data = validated_data.pop('team', None)
+        if team_data:
+            instance.team.set(team_data)  # Обновление команды
+        return super().update(instance, validated_data)
 
 
-##################################################################
+
+
 

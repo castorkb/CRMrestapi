@@ -5,6 +5,7 @@ data = {
     "first_name": "Иван",
     "last_name": "Иванов",
     "email": "adil@gmail.com",
+    "phone_number": "+79123456789",
     "password": "567156",
     "group": "Клиенты"
 }
