@@ -8,7 +8,7 @@ class IsEmployee(BasePermission):
 class IsClient(BasePermission):
     # проверяет, состоит ли пользователь в группе 'client'
     def has_permission(self, request, view):
-        return request.user.groups.filter(name='client').exists()
+        return request.user.groups.filter(name='Клиент').exists()
 
 class IsGroupMember(BasePermission):
     # проверяет, состоит ли пользователь в группе 'group'
