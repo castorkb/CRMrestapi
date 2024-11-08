@@ -1,37 +1,61 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, status
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import viewsets
+from .models import Interaction
+from .serializers import InteractionSerializer
+from rest_framework.permissions import IsAuthenticated
 
-# Представление для регистрации
-class RegisterView(generics.CreateAPIView):
+
+class RegisterView(generics.CreateAPIView):  # Представление для регистрации
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
-# Представление для получения JWT-токенов
-class CustomTokenObtainPairView(TokenObtainPairView):
+
+class CustomTokenObtainPairView(TokenObtainPairView):  # Представление для получения JWT-токенов
     permission_classes = (AllowAny,)
 
 
 
 
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
-# from rest_framework import status
-# from .serializers import RegistrationSerializer
-#
-# class RegisterView(APIView):
-#     def post(self, request):
-#         serializer = RegistrationSerializer(data=request.data)  # Получаем данные из запроса
-#         if serializer.is_valid():  # Проверяем, валидны ли данные
-#             serializer.save()  # Сохраняем пользователя и добавляем в группу
-#             return Response({"message": "Регистрация прошла успешно"}, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Ошибки валидации
-#
-#
-# class CustomTokenObtainPairView:
-#     pass
+
+
+
+
+from rest_framework import generics
+from .models import Interaction
+from .serializers import InteractionSerializer
+from rest_framework.permissions import IsAuthenticated
+
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import Interaction
+from .serializers import InteractionSerializer
+
+class InteractionListCreateView(generics.ListCreateAPIView):
+    queryset = Interaction.objects.all()
+    serializer_class = InteractionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Фильтруем взаимодействия по текущему пользователю, как менеджеру
+        return Interaction.objects.filter(manager=self.request.user)
+
+    def perform_create(self, serializer):
+        # При создании взаимодействия назначаем текущего пользователя как менеджера
+        serializer.save(manager=self.request.user)
+
+
+class InteractionDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Interaction.objects.all()
+    serializer_class = InteractionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Interaction.objects.filter(client__user=self.request.user)

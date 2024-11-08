@@ -1,7 +1,8 @@
 from django.contrib.auth.models import Group
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Profile  # Убедитесь, что импорт верный
+from .models import Profile, Interaction
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -39,6 +40,21 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 
+
+
+
+# Сериализатор для модели Interaction
+# serializers.py
+
+
+from rest_framework import serializers
+from .models import Interaction
+
+class InteractionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Interaction
+        fields = ['id', 'manager', 'client', 'type', 'date', 'details']
+        read_only_fields = ['id', 'date']  # Поля id и date будут только для чтения
 
 
 

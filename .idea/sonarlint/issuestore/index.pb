@@ -3905,3 +3905,7 @@ G
 tests/test_resources.py,d\3\d3e6223589d261128660ba7992d5bd9618b335ba
 G
 tests/test_financial.py,9\2\929e78af92fa70df6387706b94247042624acfcb
+J
+tests/test_interactions.py,c\9\c9df16bd2ef1e4c6a11932cd40f373486616246e
+C
+tests/test_token.py,b\8\b8093d4716d3e4413d294312b5cf71d279131ea0

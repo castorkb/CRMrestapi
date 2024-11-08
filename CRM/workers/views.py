@@ -110,7 +110,8 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-##############################################################
+
+
 
 
 class InventoryViewSet(viewsets.ModelViewSet):
@@ -172,9 +173,6 @@ class ResourceDetailView(APIView):
 
 
 
-# views.py
-
-
 
 
 class FinancialListCreateView(generics.ListCreateAPIView):
@@ -184,6 +182,5 @@ class FinancialListCreateView(generics.ListCreateAPIView):
 class FinancialDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Financial.objects.all()
     serializer_class = FinancialSerializer
-
 
 

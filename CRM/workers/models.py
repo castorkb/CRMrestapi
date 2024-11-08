@@ -1,7 +1,7 @@
 from django.utils import timezone
-
 from django.contrib.auth.models import User
 from django.db import models
+
 
 # Create your models here.
 
@@ -24,6 +24,7 @@ class Project(models.Model):
     deadline = models.DateField(default=timezone.now)  # Дата завершения проекта
     status = models.CharField(max_length=250)  # Статус проекта (например, "В процессе", "Завершен")
 
+
     manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='managed_projects')
     team = models.ManyToManyField(User, related_name='team_projects', blank=True)
     client = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='client_projects')
@@ -37,6 +38,7 @@ class Task(models.Model):
     title = models.CharField(max_length=250)  # Заголовок задачи, до 250 символов
     description = models.TextField()  # Полное описание задачи, поддерживает большой объем текста
     status = models.CharField(max_length=250)  # Статус задачи
+
 
     assigned_to = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name='assigned_tasks'
