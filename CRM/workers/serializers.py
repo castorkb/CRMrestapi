@@ -1,9 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+from .models import Task, Project, Inventory, Resource, Financial
 
-
-from .models import Project
-from .models import Project
 
 
 
@@ -49,12 +47,51 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project  # Указывает, что сериализатор связан с моделью Project
         fields = ['id', 'title', 'description', 'deadline', 'status', 'manager', 'team', 'client'] # Перечисление полей, которые будут использоваться в сериализаторе
 
-################################################################
+
     def update(self, instance, validated_data):
         team_data = validated_data.pop('team', None)
         if team_data:
             instance.team.set(team_data)  # Обновление команды
         return super().update(instance, validated_data)
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    # Отображаем имя пользователя, к которому присвоена задача
+    assigned_to = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
+    class Meta:
+        model = Task
+        fields = ['task_name', 'title', 'description', 'status', 'assigned_to', 'project']
+
+
+
+
+
+class InventorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inventory
+        fields = ['id', 'item_name', 'stock_Level', 'purchase_order']
+
+
+
+
+
+class ResourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = ['id', 'name', 'type', 'quantity', 'availability', 'usage_history']
+
+
+
+
+
+class FinancialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Financial
+        fields = ['id', 'budget', 'expenses', 'invoices', 'payments', 'taxes']
+
+
+
 
 
 

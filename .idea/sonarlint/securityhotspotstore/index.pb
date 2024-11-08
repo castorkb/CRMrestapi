@@ -3897,3 +3897,11 @@ MCRM/client/migrations/0003_rename_clientemail_client_client_email_and_more.py,
 Q.idea/sonarlint/securityhotspotstore/c/6/c6b3b69351ed68cf7ec23404a19d337e99dffd15,f\a\faeb47c61292143c26cc395a2264ee0b8d01868a
 w
 G.idea/sonarlint/issuestore/c/6/c6b3b69351ed68cf7ec23404a19d337e99dffd15,2\0\200e2fe83b0950d67eb7152700096aade9e65e81
+B
+tests/test_task.py,f\c\fc6b30700c373ec97a8cce5024418971f525105d
+G
+tests/test_inventory.py,e\8\e8b19382d270f3804d741d4722ba0c36f93d116a
+G
+tests/test_resources.py,d\3\d3e6223589d261128660ba7992d5bd9618b335ba
+G
+tests/test_financial.py,9\2\929e78af92fa70df6387706b94247042624acfcb

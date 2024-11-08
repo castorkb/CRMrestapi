@@ -1,36 +1,98 @@
 import requests
+from django.contrib.auth import get_user_model
 
-# Замените эти значения на свои данные
-base_url = 'http://127.0.0.1:8000/api/workers/projects'  # URL вашего API
-token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMjk2NjY0LCJpYXQiOjE3MzAyOTYzNjQsImp0aSI6ImUxYzQ5MzFjZTU3NjQ3ZmRiOWNiNDIyMDhkNmVlZDc5IiwidXNlcl9pZCI6MX0.gU8mI3pbIELxoMDAsZjdB3VAtNNUhzUAM-gat5YMJlo'  # Ваш JWT-токен
-project_id = 1  # ID проекта
-user_id_to_add = 5  # ID пользователя для добавления
-user_id_to_remove = 3  # ID пользователя для удаления
+BASE_URL = "http://127.0.0.1:8000/api/workers"  # Замените на правильный базовый URL вашего API
 
-# Заголовки с авторизацией
-headers = {
-    'Authorization': f'Bearer {token}',
-    'Content-Type': 'application/json'  # Убедитесь, что указываете тип контента
-}
+User = get_user_model()
 
-# Запрос на добавление сотрудника в команду проекта
-add_team_member_url = f'{base_url}/{project_id}/add_team_member/'
-add_data = {'user_id': user_id_to_add}
+# Получение JWT токена для аутентификации
+def get_jwt_token(username, password):
+    response = requests.post(f"{BASE_URL}/api/token/", data={
+        'username': username,
+        'password': password
+    })
+    return response.json().get('access')
 
-response_add = requests.post(add_team_member_url, headers=headers, json=add_data)
 
-if response_add.status_code == 200:
-    print("Сотрудник добавлен:", response_add.json())
-else:
-    print("Ошибка при добавлении сотрудника:", response_add.status_code, response_add.json())
+# Тесты для задач
+def test_create_task():
+    # Создаем пользователя для задачи и получаем токен
+    token = get_jwt_token('testuser', 'testpassword')
+    headers = {'Authorization': f'Bearer {token}'}
 
-# Запрос на удаление сотрудника из команды проекта
-remove_team_member_url = f'{base_url}/{project_id}/remove_team_member/'
-remove_data = {'user_id': user_id_to_remove}
+    # Создаем тестовый проект
+    project_data = {
+        "title": "Test Project",
+        "description": "Test Description",
+        "deadline": "2025-01-01",
+        "status": "in progress"
+    }
+    project_response = requests.post(f"{BASE_URL}/projects/", headers=headers, json=project_data)
+    project_id = project_response.json().get('id')
 
-response_remove = requests.post(remove_team_member_url, headers=headers, json=remove_data)
+    # Создаем задачу
+    task_data = {
+        "task_name": "Test Task",
+        "title": "Test Title",
+        "description": "Test Description",
+        "status": "pending",
+        "assigned_to": 1,  # Замените на ID созданного пользователя
+        "project": project_id
+    }
+    response = requests.post(f"{BASE_URL}/tasks/", headers=headers, json=task_data)
+    assert response.status_code == 201
+    print("Task created:", response.json())
 
-if response_remove.status_code == 200:
-    print("Сотрудник удален:", response_remove.json())
-else:
-    print("Ошибка при удалении сотрудника:", response_remove.status_code, response_remove.json())
+
+def test_get_task_list():
+    # Получаем список задач
+    token = get_jwt_token('testuser', 'testpassword')
+    headers = {'Authorization': f'Bearer {token}'}
+    response = requests.get(f"{BASE_URL}/tasks/", headers=headers)
+    assert response.status_code == 200
+    print("Task list:", response.json())
+
+
+def test_get_task_detail(task_id):
+    # Получаем детальную информацию о задаче
+    token = get_jwt_token('testuser', 'testpassword')
+    headers = {'Authorization': f'Bearer {token}'}
+    response = requests.get(f"{BASE_URL}/tasks/{task_id}/", headers=headers)
+    assert response.status_code == 200
+    print("Task detail:", response.json())
+
+
+def test_update_task(task_id):
+    # Обновляем задачу
+    token = get_jwt_token('testuser', 'testpassword')
+    headers = {'Authorization': f'Bearer {token}'}
+    update_data = {
+        "task_name": "Updated Task",
+        "title": "Updated Title",
+        "description": "Updated Description",
+        "status": "completed",
+        "assigned_to": 1,  # ID пользователя
+        "project": 1  # ID проекта
+    }
+    response = requests.put(f"{BASE_URL}/tasks/{task_id}/", headers=headers, json=update_data)
+    assert response.status_code == 200
+    print("Task updated:", response.json())
+
+
+def test_delete_task(task_id):
+    # Удаляем задачу
+    token = get_jwt_token('testuser', 'testpassword')
+    headers = {'Authorization': f'Bearer {token}'}
+    response = requests.delete(f"{BASE_URL}/tasks/{task_id}/", headers=headers)
+    assert response.status_code == 204
+    print("Task deleted")
+
+# Примеры вызовов функций:
+if __name__ == "__main__":
+    test_create_task()
+    test_get_task_list()
+    task_id = 1  # Укажите реальный ID задачи, полученный после создания
+    test_get_task_detail(task_id)
+    test_update_task(task_id)
+    test_delete_task(task_id)
+

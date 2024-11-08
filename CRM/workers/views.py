@@ -6,21 +6,15 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .models import Project
 from .serializers import ProjectSerializer
 from rest_framework.permissions import IsAuthenticated
-
-
-
-
-
-
-
-
-
-
-
-
+from .serializers import TaskSerializer
+from rest_framework import viewsets
+from .serializers import InventorySerializer
+from .serializers import ResourceSerializer
+from rest_framework.views import APIView
+from .models import Project, Task, Inventory, Resource, Financial
+from .serializers import FinancialSerializer
 
 
 
@@ -103,3 +97,93 @@ class RemoveTeamMemberView(generics.GenericAPIView):
             return Response({"status": "Сотрудник удален"}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({"error": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+class TaskListCreateView(generics.ListCreateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+
+
+##############################################################
+
+
+class InventoryViewSet(viewsets.ModelViewSet):
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
+    permission_classes = [IsAuthenticated]
+
+
+
+
+
+
+
+
+class ResourceListCreateView(APIView):
+    def get(self, request):
+        resources = Resource.objects.all()
+        serializer = ResourceSerializer(resources, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ResourceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ResourceDetailView(APIView):
+    def get(self, request, pk):
+        try:
+            resource = Resource.objects.get(pk=pk)
+        except Resource.DoesNotExist:
+            return Response({"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ResourceSerializer(resource)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        try:
+            resource = Resource.objects.get(pk=pk)
+        except Resource.DoesNotExist:
+            return Response({"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ResourceSerializer(resource, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        try:
+            resource = Resource.objects.get(pk=pk)
+        except Resource.DoesNotExist:
+            return Response({"detail": "Resource not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        resource.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+# views.py
+
+
+
+
+class FinancialListCreateView(generics.ListCreateAPIView):
+    queryset = Financial.objects.all()
+    serializer_class = FinancialSerializer
+
+class FinancialDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Financial.objects.all()
+    serializer_class = FinancialSerializer
+
+
+
